@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
@@ -45,9 +46,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return noteList.size(); // Возвращаем размер списка заметок
     }
 
-    public void removeItem(int position) {
-        noteList.remove(position); // Удаляем элемент по позиции
-        notifyItemRemoved(position); // Уведомляем адаптер об изменении
+    public void updateNotes(List<Note> notes) {
+        noteList.clear();
+        noteList.addAll(notes);
+        notifyDataSetChanged();
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
@@ -57,5 +59,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             super(itemView);
             titleTextView = itemView.findViewById(R.id.noteTitle); // Инициализируем TextView
         }
+    }
+    public Note getNotePosition (int position){
+        return noteList.get(position);
     }
 }
