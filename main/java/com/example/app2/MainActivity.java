@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         Button buttonSave = findViewById(R.id.buttonSave); // Находим кнопку сохранения
         recyclerViewNotes = findViewById(R.id.recyclerViewNotes); // Находим RecyclerView для заметок
 
-        noteDB = NoteDB.getDatabase(this);
-        noteDAO = noteDB.noteDAO();
-        executorService = Executors.newSingleThreadExecutor();
+        noteDB = NoteDB.getDatabase(this); // Инициализируем базу данных
+        noteDAO = noteDB.noteDAO(); // Получаем доступ к DAO для работы с заметками
+        executorService = Executors.newSingleThreadExecutor(); // Создаем отдельный поток для фоновых задач
 
         noteList = new ArrayList<>(); // Инициализируем список заметок
         noteAdapter = new NoteAdapter(noteList, this); // Создаем адаптер с пустым списком
@@ -80,21 +80,21 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition(); // Получаем позицию смахнутого элемента
 
-                Note noteToRemove = noteAdapter.getNotePosition(position);
+                Note noteToRemove = noteAdapter.getNotePosition(position); // Получаем заметку для удаления по позиции
 
-                executorService.execute(() -> {
-                    noteDAO.delete(noteToRemove);
+                executorService.execute(() -> { // Удаляем заметку в фоновом потоке
+                    noteDAO.delete(noteToRemove); // Удаляем из базы данных
                     loadNote();
                 });
             }
         }).attachToRecyclerView(recyclerViewNotes); // Привязываем жесты к RecyclerView
     }
 
-    private void loadNote() {
+    private void loadNote() { // Загружаем заметки из базы данных
         executorService.execute(() -> {
-            List<Note> notes = noteDAO.getAllNotes();
-            runOnUiThread(() -> {
-                noteAdapter.updateNotes(notes);
+            List<Note> notes = noteDAO.getAllNotes(); // Получаем все заметки
+            runOnUiThread(() -> { // Обновляем UI
+                noteAdapter.updateNotes(notes); // Обновляем список в адаптере
             });
         });
     }

@@ -11,14 +11,13 @@ public abstract class NoteDB extends RoomDatabase{
     public abstract NoteDAO noteDAO();
 
     private static volatile NoteDB INSTANCE;
-
-    public static NoteDB getDatabase(final Context context) {
-        if(INSTANCE == null) {
-            synchronized (NoteDB.class) {
+    public static NoteDB getDatabase(final Context context) { // Получаем экземпляр базы данных
+        if(INSTANCE == null) { // Проверяем, существует ли база данных
+            synchronized (NoteDB.class) { // Синхронизируем доступ
                 if(INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                 NoteDB.class, "note_db")
-                    .build();
+                    .build(); // Создаем базу данных
                 }
             }
         }

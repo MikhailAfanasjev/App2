@@ -6,15 +6,15 @@ import androidx.room.Delete;
 import com.example.app2.Note;
 import java.util.List;
 
-@Dao
+@Dao // Аннотация, указывающая, что это интерфейс DAO для работы с базой данных
 
 public interface NoteDAO {
-    @Insert
-    void insert(Note note);
+    @Insert // Аннотация для метода вставки новой записи в таблицу
+    void insert(Note note); // Метод для вставки заметки в базу данных
 
-    @Query("SELECT * FROM notes ORDER BY id DESC")
-    List<Note> getAllNotes();
+    @Query("SELECT * FROM notes ORDER BY id DESC") // SQL-запрос для получения всех заметок, отсортированных по ID в обратном порядке
+    List<Note> getAllNotes(); // Метод для получения списка всех заметок
 
-    @Delete
-    void delete(Note note);
+    @Delete // Аннотация для метода удаления записи из таблицы
+    void delete(Note note); // Метод для удаления указанной заметки из базы данных
 }

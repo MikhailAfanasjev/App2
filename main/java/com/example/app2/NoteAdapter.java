@@ -47,9 +47,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     public void updateNotes(List<Note> notes) {
-        noteList.clear();
-        noteList.addAll(notes);
-        notifyDataSetChanged();
+        noteList.clear(); // Очищает текущий список заметок
+        noteList.addAll(notes); // Добавляет все заметки из переданного списка
+        notifyDataSetChanged(); // Уведомляет адаптер об обновлении данных, чтобы перерисовать список
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
